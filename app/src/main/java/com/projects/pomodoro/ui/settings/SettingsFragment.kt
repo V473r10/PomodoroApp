@@ -36,7 +36,6 @@ class SettingsFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -60,14 +59,12 @@ class SettingsFragment : Fragment() {
         startBreakAutoSwitch = binding.startBreakAutoSwitch
         resetBtn = binding.resetBtn
 
-
         pomodoroBtn.text = sharedPref.getInt("pomodoro_time", 0).toString()
         shortBreakBtn.text = sharedPref.getInt("short_break_time", 0).toString()
         longBreakBtn.text = sharedPref.getInt("long_break_time", 0).toString()
         beforeLongBtn.text = sharedPref.getInt("before_long_break", 0).toString()
         startBreakAutoSwitch.isChecked = sharedPref.getBoolean("start_break_auto", false)
 
-        // Set the pomodoro button to open an alert dialog to change the pomodoro time
         pomodoroBtnClick()
         shortBreakBtnClick()
         longBreakBtnClick()
@@ -108,7 +105,6 @@ class SettingsFragment : Fragment() {
             dialog.show()
         }
     }
-
 
     private fun shortBreakBtnClick() {
         shortBreakBtn.setOnClickListener {
