@@ -1,0 +1,52 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Pomodoro" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/surface_container_high</item>
+        <item name="colorPrimaryVariant">@color/surface_container_low</item>
+        <item name="colorOnPrimary">@color/surface</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/surface</item>
+        <item name="colorSecondaryVariant">@color/surface_dim</item>
+        <item name="colorOnSecondary">@color/surface_container_lowest</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/surface_container_lowest</item>
+        <!-- Customize your theme here. -->
+        <!-- Add Button Style -->
+        <item name="materialButtonStyle">@style/ButtonStyle</item>
+
+    </style>
+
+    <!--Create button style-->
+    <style name="ButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/surface_container_lowest</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:backgroundTint">@color/surface_container_low</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_margin">10dp</item>
+    </style>
+
+    <!-- Add a square button style -->
+    <style name="SquareButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/surface_container_lowest</item>
+        <item name="android:textSize">50sp</item>
+        <item name="android:backgroundTint">@color/surface_container_low</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:width">100dp</item>
+        <item name="android:height">100dp</item>
+    </style>
+
+    <!-- small button -->
+    <style name="SmallButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/surface_container_lowest</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:backgroundTint">@color/surface_container_low</item>
+        <!-- bold text -->
+        <item name="android:textStyle">bold</item>
+        <item name="android:width">50dp</item>
+        <item name="android:height">24dp</item>
+        <!-- padding 0 -->
+        <item name="android:padding">0dp</item>
+    </style>
+</resources>

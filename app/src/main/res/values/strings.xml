@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Pomodoro</string>
+    <string name="title_home">Pomodoro</string>
+    <string name="title_notifications">Settings</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="pomodoro">25</string>
+</resources>
