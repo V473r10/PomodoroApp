@@ -6,9 +6,9 @@ import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.projects.pomodoro.R
 import com.projects.pomodoro.databinding.FragmentPomodoroBinding
@@ -37,12 +37,9 @@ class PomodoroFragment : Fragment() {
 
     private var startBreakAuto = true
 
-    private lateinit var startStopBtn: Button
+    private lateinit var screen: ConstraintLayout
     private lateinit var remainingView: TextView
     private lateinit var pomodorosView: TextView
-    private lateinit var stateView: TextView
-    private lateinit var stageView: TextView
-    private lateinit var isPausedView: TextView
 
 
     private var timer: CountDownTimer? = null
@@ -65,39 +62,37 @@ class PomodoroFragment : Fragment() {
                 putInt("short_break_time", 5)
                 putInt("long_break_time", 15)
                 putInt("before_long_break", 4)
-                putInt("pomodoros", 0)
+//                putInt("pomodoros", 0)
                 putBoolean("start_break_auto", true)
                 apply()
             }
+        }
+        with(sharedPref.edit()) {
+            putInt("pomodoros", pomodoros)
         }
         // Save all preferences to variables
         pomodoroTime = sharedPref.getInt("pomodoro_time", 0)
         shortBreakTime = sharedPref.getInt("short_break_time", 0)
         longBreakTime = sharedPref.getInt("long_break_time", 0)
         beforeLongBreak = sharedPref.getInt("before_long_break", 0)
-        pomodoros = sharedPref.getInt("pomodoros", 0)
+//        pomodoros = sharedPref.getInt("pomodoros", 0)
         startBreakAuto = sharedPref.getBoolean("start_break_auto", true)
 
+        if (isPomodoro && remainingTime == 0)
+            remainingTime = pomodoroTime
+
         // Set the remaining time to the pomodoro time
-        remainingTime = pomodoroTime
+//        remainingTime = pomodoroTime
 
         // Set the remaining time text view to the pomodoro time
-        stateView = binding.stateView
-        stageView = binding.stageView
-        isPausedView = binding.isPausedView
-        "Is paused: ${this.isPaused}".also { isPausedView.text = it }
 
         remainingView = binding.timerView
-        remainingView.text = pomodoroTime.toString()
-        startStopBtn = binding.startStop
+        remainingView.text = remainingTime.toString()
+        screen = binding.root
         pomodorosView = binding.pomodorosView
         pomodorosView.text = pomodoros.toString()
 
-        startStopBtn.text = requireContext().applicationContext.getString(R.string.start)
-        stateView.text = timerIsRunning.toString()
-        "Stage: ".also { stageView.text = it }
-
-        startStopBtn.setOnClickListener {
+        screen.setOnClickListener {
             if (timerIsRunning) {
                 stopTimer()
             } else {
@@ -109,10 +104,15 @@ class PomodoroFragment : Fragment() {
                     startLongBreak()
                 }
                 isPaused = false
-                "Is paused: ${this.isPaused}".also { isPausedView.text = it }
 
             }
         }
+
+        screen.setOnLongClickListener {
+            resetTimer()
+            true
+        }
+
         return binding.root
     }
 
@@ -124,10 +124,6 @@ class PomodoroFragment : Fragment() {
     // Add to startTimer as parameter the time of the stage
     private fun startTimer(time: Int) {
 
-        // Set the stage view according to the boolean properties isPomodoro, isShortBreak, isLongBreak
-        if (isPomodoro) {
-            "Stage: Pomodoro".also { stageView.text = it }
-        }
 
         if (isPaused)
             remainingTime = time
@@ -142,7 +138,6 @@ class PomodoroFragment : Fragment() {
                 if (timerIsRunning) {
                     remainingTime = millisUntilFinished.toInt() / 1000
                     timerIsRunning = true
-                    stateView.text = timerIsRunning.toString()
                     updateUI(remainingView)
                 } else
                     cancel()
@@ -151,14 +146,9 @@ class PomodoroFragment : Fragment() {
 
             override fun onFinish() {
                 timerIsRunning = false
-                stateView.text = timerIsRunning.toString()
                 updateUI(remainingView)
                 stopTimer()
-                startStopBtn.text = requireContext().applicationContext.getString(R.string.start)
                 isPaused = false
-                "Is paused: ${this@PomodoroFragment.isPaused}".also { isPausedView.text = it }
-
-
 
                 if (remainingTime == 0) {
 
@@ -188,18 +178,10 @@ class PomodoroFragment : Fragment() {
                     }
                 }
 
-                if (isPomodoro) {
-                    "Stage: Pomodoro".also { stageView.text = it }
-                } else if (isShortBreak) {
-                    "Stage: Short Break".also { stageView.text = it }
-                } else if (isLongBreak) {
-                    "Stage: Long Break".also { stageView.text = it }
-                }
                 if (isLongBreak)
                     resetCycle()
             }
         }.start()
-        startStopBtn.text = requireContext().applicationContext.getString(R.string.stop)
     }
 
     private fun startPomodoro() {
@@ -243,10 +225,7 @@ class PomodoroFragment : Fragment() {
     private fun stopTimer() {
         timer?.cancel()
         isPaused = true
-        "Is paused: ${this.isPaused}".also { isPausedView.text = it }
         timerIsRunning = false
-        stateView.text = timerIsRunning.toString()
-        startStopBtn.text = requireContext().applicationContext.getString(R.string.start)
     }
 
     private fun resetCycle() {
@@ -254,6 +233,19 @@ class PomodoroFragment : Fragment() {
         shortBreaks = 0
         longBreaks = 0
         pomodorosView.text = pomodoros.toString()
+    }
+
+    private fun resetTimer() {
+        stopTimer()
+        if (isPomodoro) {
+            remainingTime = pomodoroTime
+            pomodoros--
+        } else if (isShortBreak) {
+            remainingTime = shortBreakTime
+        } else if (isLongBreak) {
+            remainingTime = longBreakTime
+        }
+        updateUI(remainingView)
     }
 
     override fun onDestroyView() {
