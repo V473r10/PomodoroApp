@@ -28,7 +28,6 @@ class SettingsFragment : Fragment() {
     private lateinit var longBreakBtn: Button
     private lateinit var beforeLongBtn: Button
     private lateinit var startBreakAutoSwitch: Switch
-    private lateinit var resetBtn: Button
     private var _binding: FragmentSettingsBinding? = null
     private lateinit var sharedPref: SharedPreferences
 
@@ -57,7 +56,6 @@ class SettingsFragment : Fragment() {
         longBreakBtn = binding.longBreakBtn
         beforeLongBtn = binding.beforeLongBtn
         startBreakAutoSwitch = binding.startBreakAutoSwitch
-        resetBtn = binding.resetBtn
 
         pomodoroBtn.text = sharedPref.getInt("pomodoro_time", 0).toString()
         shortBreakBtn.text = sharedPref.getInt("short_break_time", 0).toString()
@@ -70,7 +68,6 @@ class SettingsFragment : Fragment() {
         longBreakBtnClick()
         beforeLongBtnClick()
         startBreakAutoSwitchClick()
-        resetBtnClick()
 
         return root
     }
@@ -205,16 +202,6 @@ class SettingsFragment : Fragment() {
             Toast.makeText(this.requireContext(), "Start break auto switch clicked", Toast.LENGTH_SHORT).show()
             with(sharedPref.edit()) {
                 putBoolean("start_break_auto", startBreakAutoSwitch.isChecked)
-                apply()
-            }
-        }
-    }
-
-    private fun resetBtnClick() {
-        resetBtn.setOnClickListener {
-            // reset pomodoros count
-            with(sharedPref.edit()) {
-                putInt("pomodoros", 0)
                 apply()
             }
         }

@@ -11,6 +11,7 @@
         <item name="colorOnSecondary">@color/surface_container_lowest</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/surface_container_lowest</item>
+        <item name="android:windowBackground">@color/surface_container_lowest</item>
         <!-- Customize your theme here. -->
         <!-- Add Button Style -->
         <item name="materialButtonStyle">@style/ButtonStyle</item>

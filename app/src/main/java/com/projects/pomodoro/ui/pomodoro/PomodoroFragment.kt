@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import com.projects.pomodoro.MainActivity
 import com.projects.pomodoro.R
 import com.projects.pomodoro.databinding.FragmentPomodoroBinding
 
@@ -112,6 +113,9 @@ class PomodoroFragment : Fragment() {
             resetTimer()
             true
         }
+
+        // Hide de action bar
+        (activity as MainActivity).supportActionBar?.hide()
 
         return binding.root
     }

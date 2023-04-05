@@ -12,7 +12,7 @@
     <color name="surface">#EDEFE5</color>
     <color name="surface_bright">#F8FAF0</color>
 
-    <color name="surface_container_lowest">#1A1C18</color>
+    <color name="surface_container_lowest">#0D0E0C</color>
     <color name="surface_container_low">#43483E</color>
     <color name="surface_container">#E5EBDC</color>
     <color name="surface_container_high">#74796D</color>
